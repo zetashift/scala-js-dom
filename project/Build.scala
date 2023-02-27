@@ -16,7 +16,6 @@ import sbtbuildinfo.BuildInfoPlugin
 import sbtbuildinfo.BuildInfoPlugin.autoImport._
 import scalafix.sbt.ScalafixPlugin
 import scalafix.sbt.ScalafixPlugin.autoImport._
-import scalatex.ScalatexReadme
 import sbtdynver.DynVerPlugin.autoImport.previousStableVersion
 import Dependencies._
 import Lib._
