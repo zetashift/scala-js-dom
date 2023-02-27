@@ -56,9 +56,9 @@ def appendElement(div: html.Div): Unit = {
 
 ```scala mdoc:js:invisible
 <div id="outer-container"></div>
-<button id="demo1" class="button-run">Run</button>
+<button id="demo1-btn" class="button-run">Run</button>
 ---
-document.getElementById("demo1").addEventListener("click", (ev: Event) => {
+document.getElementById("demo1-btn").addEventListener("click", (ev: Event) => {
   appendElement(document.getElementById("outer-container").asInstanceOf[html.Div])
 })
 ```
@@ -81,20 +81,20 @@ def showOnMouseCoordinates(mouseArea: html.Div, info: html.Pre): Unit = {
 ```scala mdoc:js:invisible
 <div id="demo2-container" style="display: flex; gap: 3em; margin-bottom: 1rem;">
   <div id="mouse-container" style="width:300px;height:300px;border: 5px solid black;"></div>
-  <pre id="demo2-text-container"></pre>
+  <pre id="demo2-output"></pre>
 </div>
-<button id="demo2" class="button-run">Run</button>
+<button id="demo2-btn" class="button-run">Run</button>
 ---
 val mouseArea = document.getElementById("mouse-container").asInstanceOf[html.Div]
-val info = document.getElementById("demo2-text-container").asInstanceOf[html.Pre]
-document.getElementById("demo2").addEventListener("click", (ev: Event) => {
+val info = document.getElementById("demo2-output").asInstanceOf[html.Pre]
+document.getElementById("demo2-btn").addEventListener("click", (ev: Event) => {
   showOnMouseCoordinates(mouseArea, info)
 })
 ```
 
 ### Storing an item in `localStorage`
 
-```scala mdoc:js
+```scala mdoc:js:shared
 def storeInputInLocalStorage(input: html.Input, box: html.Div) = {
   val key = "myKey"
   input.value = window.localStorage.getItem(key)
@@ -109,15 +109,29 @@ def storeInputInLocalStorage(input: html.Input, box: html.Div) = {
 }
 ```
 
+```scala mdoc:js:invisible
+<input id="demo3-input" type="text" style="display:none;" />
+<div id="demo3-output" style="display:none;" ></div>
+<button id="demo3-btn" class="button-run">Run</button>
+---
+val input = document.getElementById("demo3-input").asInstanceOf[html.Input]
+val output = document.getElementById("demo3-output").asInstanceOf[html.Div]
+document.getElementById("demo3-btn").addEventListener("click", (ev: Event) => {
+  input.style.display = "block"
+  output.style.display = "block"
+  storeInputInLocalStorage(input, output)
+})
+```
+
 ### Using `Canvas` to draw
 
-```scala mdoc:js
+```scala mdoc:js:shared
 type Context2D = CanvasRenderingContext2D
 
 def drawCuteSmiley(canvas: html.Canvas) = {
   val context = canvas.getContext("2d").asInstanceOf[Context2D]
 
-  val size = 300
+  val size = 150
   canvas.width = size
   canvas.height = size
 
@@ -135,9 +149,20 @@ def drawCuteSmiley(canvas: html.Canvas) = {
 }
 ```
 
+```scala mdoc:js:invisible
+<canvas id="demo4-canvas">
+</canvas>
+<button id="demo4-btn">Run</button>
+---
+val canvas = document.getElementById("demo4-canvas").asInstanceOf[html.Canvas]
+document.getElementById("demo4-btn").addEventListener("click", (ev: Event) => {
+  drawCuteSmiley(canvas)
+})
+```
+
 ### Using `Fetch` to make API calls in the browser
 
-```scala mdoc:js
+```scala mdoc:js:shared
 import scala.concurrent.ExecutionContext.Implicits.global
 
 def fetchBoredApi(element: html.Pre) = {
@@ -154,6 +179,16 @@ def fetchBoredApi(element: html.Pre) = {
   for (text <- responseText)
     element.textContent = text
 }
+```
+
+```scala mdoc:js:invisible
+<pre id="demo5-output"></pre>
+<button id="demo5-btn">Run</button>
+---
+val output = document.getElementById("demo5-output").asInstanceOf[html.Pre]
+document.getElementById("demo5-btn").addEventListener("click", (ev: Event) => {
+  fetchBoredApi(output)
+})
 ```
 
 ### Using Websockets
@@ -180,7 +215,7 @@ def fetchBoredApi(element: html.Pre) = {
 
 ### Styling an HTML element
 
-```scala mdoc:js
+```scala mdoc:js:shared
 def changeColor(div: html.Div) = {
   val colors = Seq("red", "green", "blue")
 
@@ -188,6 +223,15 @@ def changeColor(div: html.Div) = {
 
   div.style.color = colors(index)
 }
+```
+
+```scala mdoc:js:invisible
+<div id="demo7-text">Color me!</div>
+<button id="demo7-btn">Run</button>
+---
+document.getElementById("demo7-btn").addEventListener("click", (ev: Event) => {
+  changeColor(document.getElementById("demo7-text").asInstanceOf[html.Div])
+})
 ```
 
 ## Contributing
