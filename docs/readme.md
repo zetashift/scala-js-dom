@@ -65,10 +65,10 @@ document.getElementById("demo1").addEventListener("click", (ev: Event) => {
 
 ### Add an EventListener for `onmousemove`
 
-```scala mdoc:js
-def showOnMouseCoordinates(pre: html.Pre): Unit = {
-  pre.onmousemove = (ev: MouseEvent) =>
-    pre.textContent = s"""
+```scala mdoc:js:shared
+def showOnMouseCoordinates(mouseArea: html.Div, info: html.Pre): Unit = {
+  mouseArea.onmousemove = (ev: MouseEvent) =>
+    info.textContent = s"""
       |ev.clientX: ${ev.clientX}
       |ev.clientY: ${ev.clientY}
       |ev.pageX:   ${ev.pageX}
@@ -76,6 +76,20 @@ def showOnMouseCoordinates(pre: html.Pre): Unit = {
       |ev.screenY: ${ev.screenY}
     """.stripMargin
 }
+```
+
+```scala mdoc:js:invisible
+<div id="demo2-container" style="display: flex; gap: 3em; margin-bottom: 1rem;">
+  <div id="mouse-container" style="width:300px;height:300px;border: 5px solid black;"></div>
+  <pre id="demo2-text-container"></pre>
+</div>
+<button id="demo2" class="button-run">Run</button>
+---
+val mouseArea = document.getElementById("mouse-container").asInstanceOf[html.Div]
+val info = document.getElementById("demo2-text-container").asInstanceOf[html.Pre]
+document.getElementById("demo2").addEventListener("click", (ev: Event) => {
+  showOnMouseCoordinates(mouseArea, info)
+})
 ```
 
 ### Storing an item in `localStorage`
